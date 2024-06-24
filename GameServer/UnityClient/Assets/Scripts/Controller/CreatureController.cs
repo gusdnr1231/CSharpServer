@@ -328,7 +328,7 @@ public class CreatureController : MonoBehaviour
 
     protected virtual void UpdateDead()
     {
-
+        if(Hp <= 0) Destroy(this.gameObject);
     }
 
     public virtual void OnDamaged()

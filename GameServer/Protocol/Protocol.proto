@@ -103,8 +103,11 @@ message ItemInfo {		// 스킬번호
 }
 message C_ItemGet {
 	ItemInfo iteminfo = 1;		// 아이템의 오브젝트 아이디
-	ObjectInfo player = 2;	// 아이템 먹은 플레이어
+	int32 playerObjectId = 2;	// 아이템 먹은 플레이어
 }
 message S_ItemGet {
 	ItemInfo iteminfo = 1;		// 아이템의 오브젝트 아이디
+}
+message S_DeadObject{
+	int32 objectId = 1;
 }

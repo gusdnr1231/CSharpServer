@@ -135,20 +135,22 @@ namespace GameServer
 
             if (fired.Hp <= 0)   // HP 0 이하
             {
-                OnDead(attacker);
+                OnDead(fired);
                 Console.WriteLine($"{fired}가 죽었습니다");
             }
         }
         // 죽었을 때
-        public virtual void OnDead(GameObject attacker)
+        public virtual void OnDead(GameObject fired)
         {
-            //S_Die diePacket = new S_Die();
-            //diePacket.ObjectId = Id;
-            //diePacket.AttackerId = attacker.Id;
-            //Room.Broadcast(diePacket);
+            S_DeadObject deadPacket = new S_DeadObject();
+            deadPacket.ObjectId = fired.Id;
 
-            //GameRoom room = Room;
-            //room.LeaveGame(Id);
+
+            GameRoom room = Room;
+            ObjectManager.Instance.Remove(fired.Id);
+            room.BroadCast(deadPacket);
+            room.LeaveGame(fired.Id);
+            
         }
     }
 }

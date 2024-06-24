@@ -38,8 +38,6 @@ class PacketManager
 		_handler.Add((ushort)MsgId.SSkill, PacketHandler.S_SkillHandler);		
 		_onRecv.Add((ushort)MsgId.SChangeHp, MakePacket<S_ChangeHp>);
 		_handler.Add((ushort)MsgId.SChangeHp, PacketHandler.S_ChangeHpHandler);		
-		_onRecv.Add((ushort)MsgId.SItemGet, MakePacket<S_ItemGet>);
-		_handler.Add((ushort)MsgId.SItemGet, PacketHandler.S_ItemGetHandler);
 	}
 
 	public void OnRecvPacket(PacketSession session, ArraySegment<byte> buffer)

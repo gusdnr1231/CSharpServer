@@ -1,46 +1,49 @@
-ï»¿using Google.Protobuf.Protocol;
+using Google.Protobuf.Protocol;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 
 public class ItemController : CreatureController
 {
-	protected override void Init()
-    {
-    State = CreatureState.Moving;
-    base.Init();
-    }
+	protected GameObject item;
 
-    protected override void UpdateAnimation()
-    {
-        // ì¶”í›„ ê¸°ëŠ¥ ì¶”ê°€
-    }
-    
-    protected void ActiveItem()
-    {
-    }
+	protected override void Init()
+	{
+		State = CreatureState.Moving;
+		base.Init();
+	}
+
+	protected override void UpdateAnimation()
+	{
+		// ÃßÈÄ ±â´É Ãß°¡
+	}
+
+	protected void ActiveItem(MyPlayerController reachPlayer)
+	{
+		C_ItemGet item = new C_ItemGet() { Iteminfo = new ItemInfo() };
+
+		item.Iteminfo.ItemId = Id;
+		item.Iteminfo.Name = "Coin";
+		item.Iteminfo.PosInfo = this.PosInfo;
+
+		item.PlayerObjectId = reachPlayer.Id;
+
+		Managers.Network.Send(item);
+	}
 
 	private void OnTriggerEnter(UnityEngine.Collider reachObject)
 	{
-        if (reachObject.CompareTag("Player"))
-        {
-			if (reachObject.TryGetComponent(out PlayerController reachPlayer))
+		if (reachObject.CompareTag("Player"))
+		{
+			if (reachObject.TryGetComponent(out MyPlayerController reachPlayer))
 			{
 				UnityEngine.Debug.Log("Find Player");
 
-				C_ItemGet item = new C_ItemGet() { Iteminfo = new ItemInfo() };
-
-				item.Iteminfo.ItemId = Id;
-				item.Iteminfo.Name = "Coin";
-				item.Iteminfo.PosInfo = this.PosInfo;
-
-				item.Player = new ObjectInfo() { ObjectId = reachPlayer.Id, Name = reachPlayer.name, PosInfo = reachPlayer.PosInfo, StatInfo = reachPlayer.Stat };
-
-				Managers.Network.Send(item);
-				Destroy(this.gameObject);
+				ActiveItem(reachPlayer);
 			}
 		}
 	}

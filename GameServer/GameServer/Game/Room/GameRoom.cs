@@ -259,7 +259,27 @@ namespace GameServer
         {
             lock (_lock)
             {
-               Console.WriteLine($"{iGetPacket}");
+                foreach(Item i in _items.Values)
+                {
+                    if(i.Id == iGetPacket.Iteminfo.ItemId)
+                    {
+						Console.WriteLine($"{i}");
+
+                        S_ItemGet sGetPacket = new S_ItemGet() { Iteminfo = new ItemInfo() };
+                        sGetPacket.Iteminfo.ItemId = i.Id;
+                        player.Session.ProtoSend(sGetPacket);
+
+                        S_ChangeHp changeHpPacket = new S_ChangeHp();
+                        changeHpPacket.ObjectId = player.Id;
+                        player.Hp = player.Hp + 10;
+                        if(player.Hp > 100) player.Hp = 100;
+                        changeHpPacket.Hp = player.Hp;
+                        BroadCast(changeHpPacket);
+                        Console.WriteLine($"Player : {player.Id} HP UP");
+
+                        LeaveGame(i.Id);
+					}
+                }
             }
         }
 

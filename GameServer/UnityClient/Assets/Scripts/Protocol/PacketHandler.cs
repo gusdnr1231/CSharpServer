@@ -86,13 +86,13 @@ class PacketHandler
     }
     public static void S_ItemGetHandler(PacketSession session, IMessage packet)
     {
-        S_ItemGet getItemPacket = packet as S_ItemGet;
+        /*S_ItemGet getItemPacket = packet as S_ItemGet;
 
         GameObject go = Managers.Object.FindById(getItemPacket.Iteminfo.ItemId);
         
         if(go == null) return;
 
-		Object.Destroy(go);
+		Object.Destroy(go);*/
 	}
 }
 
